@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <div class="no-bottom no-top" id="content">
+            <div id="top"></div>
+
+
+            <section aria-label="section" class="mt90 sm-mt-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <img src="{{ nft_item.image }}" class="img-fluid img-rounded mb-sm-30" alt="">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="item_info">
+                                <h2>{{ nft_item.name }}</h2>
+                                <div class="item_info_counts">
+                                    <div class="item_info_type"><i class="fa fa-image"></i>{{ nft_item.category }}</div>
+                                    <div class="item_info_views"><i class="fa fa-eye"></i>0</div>
+                                    <div class="item_info_like"><i class="fa fa-heart"></i>0</div>
+                                </div>
+                                <p>{{ nft_item.description }}</p>
+
+                                <div class="d-flex flex-row">
+                                    <div class="mr40">
+                                        <h6>Creator</h6>
+                                        <div class="item_author">                                    
+                                            <div class="author_list_pp">
+                                                <a href="{{ url_for('author') }}">
+                                                    <img class="lazy" src="{{ user.profile_picture }}" alt="">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            </div>                                    
+                                            <div class="author_list_info">
+                                                <a href="{{ url_for('author') }}">{{ user.firstname }} {{ user.lastname }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h6>Collection</h6>
+                                    <div class="item_author">                                    
+                                        <div class="author_list_pp">
+                                            <a href="{{ url_for('author') }}">
+                                                <img class="lazy" src="{{ nft_item.image }}" alt="{{ nft_item.name }}">
+                                                <i class="fa fa-check"></i>
+                                            </a>
+                                        </div>                                    
+                                        <div class="author_list_info">
+                                            <a href="{{ url_for('author') }}">{{ nft_item.name }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spacer-40"></div>
+
+                            <h6>Price</h6>
+                                <div class="nft-item-price"><img src="{{ url_for('static', filename='images/misc/ethereum.svg') }}" alt=""><span>{{ nft_item.price }}</span> {{ nft_item.dollar }}</div>
+
+                                <!-- Button trigger modal -->
+                                <a href="#" class="btn-main btn-lg" data-bs-toggle="modal" data-bs-target="#buy_now">
+                                  Buy Now
+                                </a>
+                                &nbsp;
+                                
+                                
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- content close -->
+
+        <!-- buy now -->
+        <div class="modal fade" id="buy_now" tabindex="-1" aria-labelledby="buy_now" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered de-modal">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body">
+                <div class="p-3 form-border">
+                    <h3>Checkout</h3>
+                    You are about to purchase a <b>{{ nft_item.name }}</b> from <b>{{ user.firstname }} {{ user.lastname }}</b>
+                    <div class="spacer-single"></div> 
+                    <h6>Enter quantity. <span class="id-color-2"></span></h6>
+                    <input type="text" name="buy_now_qty" id="buy_now_qty" class="form-control" value="1" />
+                    <div class="spacer-single"></div>
+                    <div class="de-flex">
+                        <div>Your balance</div>
+                        <div><b>{{ current_user.account_funds }} ETH</b></div>
+                    </div>
+                    <div class="de-flex">
+                        <div>Service fee 2.5%</div>
+                        <div><b>0.00325 ETH</b></div>
+                    </div>
+                    <div class="de-flex">
+                        <div>You will pay</div>
+                        <div><b>{{nft_item.price}} ETH</b></div>
+                    </div>
+                    <div class="spacer-single"></div>
+                    <a href="{{ purchase }}" target="_blank" class="btn-main btn-fullwidth">purchase</a>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        {% endblock %}

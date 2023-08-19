@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard</title>
+</head>
+<body>
+    <header>
+        <h1>NFT Website Dashboard</h1>
+    </header>
+    <div class="dashboard">
+        <div class="chart-container">
+            <canvas id="nftChart"></canvas>
+            <p>NFT Items: {{ nft_count }}</p>
+        </div>
+        <div class="chart-container">
+            <canvas id="userChart"></canvas>
+            <p>Users: {{ user_count }}</p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

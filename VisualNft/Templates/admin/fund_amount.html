@@ -1,0 +1,10 @@
+<div class="container">
+    <h1>Fund User - {{ user.username }}</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="amount">Amount to Fund (ETH)</label>
+            <input type="number" step="0.01" min="0" id="amount" name="amount" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Fund</button>
+    </form>
+</div>

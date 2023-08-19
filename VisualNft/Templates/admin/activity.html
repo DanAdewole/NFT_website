@@ -1,0 +1,23 @@
+<div class="container">
+    <h1>User Activities</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>User ID</th>
+                <th>Activity Type</th>
+                <!-- Add other relevant headers -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in user_activities %}
+            <tr>
+                <td>{{ activity.timestamp }}</td>
+                <td>{{ activity.user_id }}</td>
+                <td>{{ activity.activity_type }}</td>
+                <!-- Add other relevant columns -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

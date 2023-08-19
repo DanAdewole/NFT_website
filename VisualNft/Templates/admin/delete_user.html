@@ -1,0 +1,8 @@
+<div class="container">
+    <h1>Delete User</h1>
+    <p>Are you sure you want to delete {{ user.firstname }} {{ user.lastname }}?</p>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{{ url_for('user_management') }}" class="btn btn-secondary">No, Cancel</a>
+    </form>
+</div>

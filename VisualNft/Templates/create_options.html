@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+                <!-- content begin -->
+                <div class="no-bottom no-top" id="content">
+                    <div id="top"></div>
+                    
+                    <!-- section begin -->
+                    <section id="subheader">
+                            <div class="center-y relative text-center">
+                                <div class="container">
+                                    <div class="row">
+                                        
+                                        <div class="col-md-12 text-center">
+                                            <h1>Create Collectible</h1>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                    </section>
+                    <!-- section close -->
+                    
+        
+                    <!-- section begin -->
+                    <section aria-label="section">
+                        <div class="container">
+                            <div class="row wow fadeIn">
+                                <div class="col-md-6 offset-md-3">
+                                    <p>Choose "Single" if you want your collectible to be one item or "Multiple" if you want to sell multipe items as a collection</p>
+                                    <a href="{{ url_for('create_single')}}" class="opt-create">
+                                        <img src="{{ url_for('static', filename='images/misc/black-coll-single.png') }}" alt="">
+                                        <h3>Single</h3>
+                                    </a>
+                                    <a href="{{ url_for('create_multiple')}}" class="opt-create">
+                                        <img src="{{ url_for('static', filename='images/misc/black-coll-multiple.png') }}" alt="">
+                                        <h3>Multiple</h3>
+                                    </a>
+                                </div>                             
+                            </div>
+                        </div>
+                    </section>
+        
+                </div>
+                <!-- content close -->
+{% endblock %}
