@@ -85,11 +85,14 @@
         <!-- content begin -->
         <div class="no-bottom no-top" id="content">
             <div id="top"></div>
+            {% if nft_item == 0 %}
+            <h1 class="container p-5 mt-5">Nothing to show here</h1>
+            {% else %}
             <section id="section-hero" class="no-bottom" aria-label="section">
                 <div class="d-carousel">
                     <div id="item-carousel-big" class="owl-carousel wow fadeIn">
                         <div class="nft_pic">
-                            <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                            <a href="{{ url_for('item_details', id=nft_item.id) }}">            
                                 <span class="nft_pic_info">
                                     <span class="nft_pic_title">Red Ocean</span>
                                     <span class="nft_pic_by">Monica Lucas</span>
@@ -152,6 +155,7 @@
                     <div class="d-arrow-right"><i class="fa fa-angle-right"></i></div>
                 </div>
             </section>
+            {% endif %}
 
             <section id="section-collections" class="pt30 pb30">
                 <div class="container">
