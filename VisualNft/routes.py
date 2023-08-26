@@ -47,10 +47,10 @@ def index():
     nft_item = NFTItem.query.first()  # You can fetch an NFTItem object from your database
     if nft_item:
         # If an nft_item exists, pass it to the template context
-        return render_template('index.html', nft_item=nft_item)
+        return render_template('index.html', nft_item=nft_item, user=current_user)
     else:
         # If no nft_item exists, pass None to the template context
-        return render_template('index.html', nft_item=0)
+        return render_template('index.html', nft_item=0, user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -277,7 +277,7 @@ def explore():
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', user=current_user)
 
 @app.route('/author')
 def author():
