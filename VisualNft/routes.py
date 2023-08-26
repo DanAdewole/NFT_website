@@ -17,6 +17,30 @@ def upload_proof_of_funds(user_id):
     db.session.commit()
 
 
+def upload_file(upload_folder):
+    if 'file' not in request.files:
+        return None  # No file part
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return None  # No selected file
+
+    if file:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(upload_folder, filename)
+        file.save(file_path)
+        return file_path
+
+    return None
+
+
+def send_notification(user, message):
+    notification = Notification(user_id=user.id, message=message)
+    db.session.add(notification)
+    db.session.commit()
+
+
 @app.route('/')
 @app.route('/home')
 def index():
@@ -68,10 +92,8 @@ def register():
         db.session.add(new_user)
         db.session.commit()
 
-        # After successful registration, automatically log in the user
-        login_user(new_user)
-
-        return redirect(url_for('profile_update'))
+       
+        return redirect(url_for('login'))
 
     return render_template('register.html')
 
@@ -87,27 +109,6 @@ def profile_update():
         user.your_site = request.form.get('your_site')
         user.twitter_username = request.form.get('twitter_username')
         user.instagram_username = request.form.get('instagram_username')
-
-        # Update profile picture if uploaded
-        if 'upload_profile_img' in request.files:
-            profile_img = request.files['upload_profile_img']
-            if profile_img:
-                # Logic to save the profile image and update user's profile_picture field
-                filename = secure_filename(profile_img.filename)
-                profile_img_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                profile_img.save(profile_img_path)
-                user.profile_picture = filename
-
-        # Update profile banner if uploaded
-        if 'upload_banner_img' in request.files:
-            banner_img = request.files['upload_banner_img']
-            if banner_img:
-                # Logic to save the banner image and update user's profile_banner field
-                filename = secure_filename(banner_img.filename)
-                banner_img_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                banner_img.save(banner_img_path)
-                user.profile_banner = filename
-
         db.session.commit()
 
         return redirect(url_for('user_dashboard'))
@@ -117,6 +118,41 @@ def profile_update():
     notification_count = len(user_notifications)
 
     return render_template('profile_update.html', notification_count=notification_count)
+
+@app.route('/upload_profile_picture', methods=['POST'])
+def upload_profile_picture():
+    user = current_user()  # Implement your own function to get the current user
+    if user:
+        file_path = upload_file(app.config['UPLOAD_FOLDER'])
+        if file_path:
+            user.profile_picture = file_path
+            db.session.commit()
+            flash('Profile picture uploaded successfully', 'success')
+        else:
+            flash('Failed to upload profile picture', 'error')
+    else:
+        flash('User not logged in', 'error')
+
+    return redirect(url_for('profile'))
+
+@app.route('/upload_nft_image', methods=['POST'])
+def upload_nft_image():
+    nft_item_id = request.form.get('nft_item_id')  # Get the NFT item ID from the form
+    nft_item = NFTItem.query.get(nft_item_id)
+    
+    if nft_item:
+        file_path = upload_file(app.config['UPLOAD_FOLDER'])
+        if file_path:
+            nft_item.image = file_path
+            db.session.commit()
+            flash('NFT image uploaded successfully', 'success')
+        else:
+            flash('Failed to upload NFT image', 'error')
+    else:
+        flash('NFT item not found', 'error')
+
+    return redirect(url_for('nft_item_details', id=nft_item_id))
+
 
 @app.route('/user_dashboard')
 @login_required

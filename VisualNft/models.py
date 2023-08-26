@@ -47,9 +47,11 @@ class User(UserMixin, db.Model):
     profile_picture = db.Column(db.String(255))
     profile_banner = db.Column(db.String(255))
     account_funds = db.Column(db.Float, default=0.0)
+
     
     nfts = db.relationship('NFTItem', backref='user', lazy=True)
     owned_collections = db.relationship('Collection', backref='user', lazy=True)
+    user_notification = db.relationship('Notification', backref='user')
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,6 +59,7 @@ class Notification(db.Model):
     message = db.Column(db.String(255), nullable=False)
     is_read = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 
 class Activity(db.Model):
