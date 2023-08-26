@@ -80,7 +80,7 @@
                                         </span>
                                 
                                         <span id="de-click-menu-profile" class="de-menu-profile">
-                                            <img src="{{ url_for('static', filename='images/author_single/author_thumbnail.jpg') }}" class="img-fluid" alt="">
+                                            <img src="{{ current_user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" class="img-fluid" alt="">
                                         </span>
                                 
                                         <div id="de-submenu-notification" class="de-submenu">
