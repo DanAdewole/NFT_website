@@ -71,7 +71,11 @@
                                 </ul>
                                 <!-- mainmenu close -->
                                 <div class="menu_side_area">
-                                    <a href="{{ url_for('login') }}" class="btn-main btn-wallet"><i class="icon_wallet_alt"></i><span>Get Started</span></a>
+                                    {% if user.is_authenticated %}
+                                        <a href="{{ url_for('create_options') }}" class="btn-main btn-wallet"><i class="icon_wallet_alt"></i><span>Create</span></a>
+                                    {% else %}
+                                        <a href="{{ url_for('login') }}" class="btn-main btn-wallet"><i class="icon_wallet_alt"></i><span>Get Started</span></a>
+                                    {% endif %}
                                     <span id="menu-btn"></span>
                                 </div>
                             </div>
