@@ -296,12 +296,12 @@ def author():
 #admin routes
 @app.route('/admin')
 def admin_index():
-    return render_template('admin_index.html')
+    return render_template('admin/admin_index.html')
 
 @app.route('/user_management')
 def user_management():
     users = User.query.all()
-    return render_template('user_management.html', users=users)
+    return render_template('admin/user_management.html', users=users)
 
 @app.route('/edit_user/<int:id>', methods=['GET', 'POST'])
 def edit_user(id):
@@ -314,12 +314,13 @@ def edit_user(id):
         user.lastname = request.form['lastname']
         user.email = request.form['email']
         user.bio = request.form['bio']
+        user.password =request.form['password']
         # ... update other fields as needed
         db.session.commit()
         flash('User information updated successfully', 'success')
         return redirect(url_for('user_management'))  # Redirect to user management page
 
-    return render_template('edit_user.html', user=user)
+    return render_template('admin/edit_user.html', user=user)
 
 
 @app.route('/delete_user/<int:id>', methods=['GET', 'POST'])
@@ -332,12 +333,12 @@ def delete_user(id):
         flash(f'User {user.firstname} {user.lastname} has been deleted', 'success')
         return redirect(url_for('user_management'))  # Redirect to user management page
 
-    return render_template('delete_user.html', user=user)
+    return render_template('admin/delete_user.html', user=user)
 
 @app.route('/fund_user')
 def fund_user():
     users = User.query.all()
-    return render_template('fund_user.html', users=users)
+    return render_template('admin/fund_user.html', users=users)
 
 @app.route('/fund_amount/<int:id>', methods=['GET', 'POST'])
 def fund_amount(id):
@@ -348,9 +349,12 @@ def fund_amount(id):
         db.session.commit()
         flash(f'Funded {amount} ETH to {user.username}', 'success')
         return redirect(url_for('fund_user'))
-    return render_template('fund_amount.html', user=user)
+    return render_template('admin/fund_amount.html', user=user)
 
-
+@app.route('/activity')
+def activity():
+    users = User.query.all()
+    return render_template('admin/activity.html', users=users)
 
 
 

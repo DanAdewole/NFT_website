@@ -1,26 +1,84 @@
-<div class="container">
-    <h1>Edit User</h1>
-    <form method="post">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="firstname">First Name</label>
-            <input type="text" id="firstname" name="firstname" value="{{ user.firstname }}" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="lastname" value="{{ user.lastname }}" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="bio">Bio</label>
-            <textarea id="bio" name="bio" class="form-control">{{ user.bio }}</textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-</div>
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Edit User</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" name="firstname" value="{{ user.firstname }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="lastname" value="{{ user.lastname }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" value="{{ user.password }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" class="form-control">{{ user.bio }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-control {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+
+{% endblock %}

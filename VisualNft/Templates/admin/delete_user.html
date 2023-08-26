@@ -1,8 +1,55 @@
-<div class="container">
-    <h1>Delete User</h1>
-    <p>Are you sure you want to delete {{ user.firstname }} {{ user.lastname }}?</p>
-    <form method="post">
-        <button type="submit" class="btn btn-danger">Yes, Delete</button>
-        <a href="{{ url_for('user_management') }}" class="btn btn-secondary">No, Cancel</a>
-    </form>
-</div>
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Delete User</h1>
+        <p>Are you sure you want to delete {{ user.firstname }} {{ user.lastname }}?</p>
+        <form method="post">
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{{ url_for('user_management') }}" class="btn btn-secondary">No, Cancel</a>
+        </form>
+    </div>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin-top: 50px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+    </style>
+
+    {% endblock %}
