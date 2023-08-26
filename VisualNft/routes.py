@@ -75,6 +75,7 @@ def register():
         first_name = request.form.get('FisrtName')
         last_name = request.form.get('LastName')
         email = request.form.get('email')
+        username = request.form.get('Username')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
@@ -83,12 +84,15 @@ def register():
             return "Passwords do not match"
 
         # Check if the provided email is already registered
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
+        existing_user_email = User.query.filter_by(email=email).first()
+        existing_username = User.query.filter_by(username=username).first()
+        if existing_user_email:
             return "Email already registered"
+        elif existing_username:
+            return "Username already taken"
 
         # Create a new user and add to the database
-        new_user = User(firstname=first_name, lastname=last_name, email=email, password=password)
+        new_user = User(firstname=first_name, lastname=last_name, email=email, username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
 
