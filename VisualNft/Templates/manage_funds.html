@@ -173,7 +173,10 @@
                                 <div class="text">
                                     <h4>Withdraw</h4>
                                     <p>Withdraw funds from here</p>
-                                    <a href="{{ url_for('withdrawal') }}" class="btn-main">Here</a>
+                                    <a href="#" class="btn-main btn-lg" data-bs-toggle="modal" data-bs-target="#buy_now">
+                                        Withdraw Funds
+                                      </a>
+                                      &nbsp;
                                 </div>
                             </div>
                         </div>
@@ -189,6 +192,43 @@
                     </div>
                 </div>
             </section>
+
+            <!-- buy now -->
+            <div class="modal fade" id="buy_now" tabindex="-1" aria-labelledby="buy_now" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered de-modal">
+                    <div class="modal-content">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-body">
+                        <div class="p-3 form-border">
+                            <h3>Withdraw</h3>
+                            You are about to Withdraw
+                            <div class="spacer-single"></div> 
+                            <div id="item_collection" class="dropdown fullwidth mb20">
+                                <a href="#" class="btn-selector">Select Wallet</a>
+                                <ul>
+                                    <li><span>Ethereum wallet</span></li>
+                                </ul>
+                            </div>
+                            <div class="spacer-single"></div>
+                            <h6>Enter Wallet Address <span class="id-color-2"></span></h6>
+                            <input type="text" name="buy_now_qty" id="buy_now_qty" class="form-control" placeholder="Enter wallet Address" />
+                            <div class="spacer-single"></div>
+                            <h6>Enter Amount. <span class="id-color-2"></span></h6>
+                            <input type="text" name="buy_now_qty" id="buy_now_qty" class="form-control" value="1" />
+                            <div class="spacer-single"></div>
+                            <div class="de-flex">
+                                <div>Your balance</div>
+                                <div><b>{{ current_user.account_funds }} ETH</b></div>
+                            </div>
+                
+                            <div class="spacer-single"></div>
+                            <a href="{{ purchase }}" target="_blank" class="btn-main btn-fullwidth">Withdraw</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
 
 
         </div>
