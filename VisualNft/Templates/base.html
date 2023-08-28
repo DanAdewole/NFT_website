@@ -64,12 +64,17 @@
                                     </li>
                                     <li>
                                         <a href="{{ url_for('explore') }}">Explore<span></span></a>
+                                        <ul>
+                                            <li><a href="{{ url_for('explore') }}">Explore<span></span></a></li>
+                                            <li><a href="{{ url_for('explore_music') }}">New: Music NFT</a></li>
+                                        </ul>
                                     </li>
                                     <li>
                                         <a href="{{ url_for('contact') }}">Contact Us<span></span></a>
                                     </li>
                                 </ul>
                                 <!-- mainmenu close -->
+                                {% if user.is_authenticated %}
                                 <div class="menu_side_area">
                                     <div class="de-login-menu">
                                         <a href="{{ url_for('create_options') }}" class="btn-main btn-wallet"><i class="icon_wallet_alt"></i><span>Create</span></a>
@@ -90,15 +95,6 @@
                                             </div>
                                 
                                             <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <img class="lazy" src="{{ url_for('static', filename='images/author/author-2.jpg') }}" alt="">
-                                                        <div class="d-desc">
-                                                            <span class="d-name"><b>Mamie Barnett</b> started following you</span>
-                                                            <span class="d-time">1 hour ago</span>
-                                                        </div>
-                                                    </a>  
-                                                </li>
                                                 <!-- Other notification items... -->
                                             </ul>
                                         </div>
@@ -125,6 +121,12 @@
                                         <span id="menu-btn"></span>
                                     </div>
                                 </div>
+                                {% else %}
+                                <div class="menu_side_area">
+                                    <a href="{{ url_for('login') }}" class="btn-main btn-wallet"><i class="icon_wallet_alt"></i><span>Get Started</span></a>
+                                    <span id="menu-btn"></span>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -144,12 +146,13 @@
                         <div class="widget">
                             <h5>Marketplace</h5>
                             <ul>
-                                <li><a href="#">All NFTs</a></li>
+                                <li><a href="{{ url_for('explore') }}">All NFTs</a></li>
                                 <li><a href="#">Art</a></li>
                                 <li><a href="#">Music</a></li>
                                 <li><a href="#">Domain Names</a></li>
                                 <li><a href="#">Virtual World</a></li>
                                 <li><a href="#">Collectibles</a></li>
+                                <li><a href="#">Photos</a></li>
                             </ul>
                         </div>
                     </div>
@@ -157,10 +160,10 @@
                         <div class="widget">
                             <h5>Resources</h5>
                             <ul>
-                                <li><a href="#">Help Center</a></li>
+                                <li><a href="{{ url_for('contact') }}">Help Center</a></li>
                                 <li><a href="#">Partners</a></li>
                                 <li><a href="#">Suggestions</a></li>
-                                <li><a href="#">Discord</a></li>
+                                <li><a href="Https:/t.me/VisualNft">Telegram</a></li>
                                 <li><a href="#">Docs</a></li>
                                 <li><a href="#">Newsletter</a></li>
                             </ul>
@@ -248,5 +251,21 @@
             alert("Link copied to clipboard");
         }
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get a reference to the login form and send_message button
+            var loginForm = document.getElementById("contact_form");
+            var sendButton = document.getElementById("send_message");
+            
+            // Add a click event listener to the button
+            sendButton.addEventListener("click", function(event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+                
+                // Submit the login form programmatically
+                loginForm.submit();
+            });
+        });
+        </script>
 </body>
 </html>

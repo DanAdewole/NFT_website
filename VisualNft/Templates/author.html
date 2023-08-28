@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
         <div class="no-bottom" id="content">
             <div id="top"></div>
             <section aria-label="section">
@@ -12,7 +11,7 @@
                            <div class="d_profile de-flex">
                                 <div class="de-flex-col">
                                     <div class="profile_avatar">
-                                        <img src="{{ current_user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" alt="{{ current_user.username }}">
+                                        <img src="{{ user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" alt="{{ user.username }}">
                                         <i class="fa fa-check"></i>
                                         <div class="profile_name">
                                             <h4>
@@ -23,25 +22,28 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="profile_follow de-flex">
-                                </div>
                             </div>
                         </div>
 
                         
                         <div class="col-md-12">
                             <div class="de_tab tab_simple">
+    
+                                    <ul class="de_nav">
+                                        <li class="active"><span>Created</span></li>
+                                        <li><span>Owned</span></li>
+                                    </ul>
                                 <div class="de_tab_content">
                                     
                                     <div class="tab-1">
                                         <div class="row">
                                             <div class="row">
-                                                {% for nft_item in current_user.nfts %}
+                                                {% for nft_item in user.nfts %}
                                                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                                                         <div class="nft__item">
                                                             <div class="author_list_pp">
-                                                                <a href="{{ url_for('user_dashboard', username=current_user.username) }}">
-                                                                    <img class="lazy" src="{{ current_user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" alt="">
+                                                                <a href="{{ url_for('author', username=user.username) }}">
+                                                                    <img class="lazy" src="{{ user.profile_picture or url_for('static', filename='images/author/author-1.jpg') }}" alt="">
                                                                     <i class="fa fa-check"></i>
                                                                 </a>
                                                             </div>
@@ -83,8 +85,79 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="tab-2">
+                                        <div class="row">
+
+                                            {% for nft_item in user.nfts %}
+                                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="nft__item">
+                                                    <div class="author_list_pp">
+                                                        <a href="{{ url_for('author', username=user.username) }}">
+                                                            <img class="lazy" src="{{ user.profile_picture or url_for('static', filename='images/author/author-1.jpg') }}" alt="">
+                                                            <i class="fa fa-check"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="nft__item_wrap">
+                                                        <div class="nft__item_extra">
+                                                            <div class="nft__item_buttons">
+                                                                <button onclick="location.href='{{ url_for('item_details', id=nft_item.id) }}'">Buy Now</button>
+                                                                <div class="nft__item_share">
+                                                                    <h4>Share</h4>
+                                                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('item_details', id=nft_item.id, _external=True) }}" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>
+                                                                    <a href="https://twitter.com/intent/tweet?url={{ url_for('item_details', id=nft_item.id, _external=True) }}" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>
+                                                                    <a href="javascript:void(0);" onclick="copyItemLink('{{ url_for('item_details', id=nft_item.id, _external=True) }}')">
+                                                                        <i class="fa fa-link fa-lg"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                                                            <img src="{{ nft_item.image }}" class="lazy nft__item_preview" alt="{{ nft_item.name }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="nft__item_info">
+                                                        <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                                                            <h4>{{ nft_item.name }}</h4>
+                                                        </a>
+                                                        <div class="nft__item_click">
+                                                            <span></span>
+                                                        </div>
+                                                        <div class="nft__item_price">
+                                                            {{ nft_item.price }} ETH <span>1/20</span>
+                                                        </div>
+                                                        <div class="nft__item_like">
+                                                            <i class="fa fa-heart"></i><span>50</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                                </div>
             </section>
         </div>
-        <!-- content close -->
-
 {% endblock %}
+
+
+                                             
+
+                               
+
+                    
+                        
+                            
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -51,6 +51,14 @@ def index():
     else:
         # If no nft_item exists, pass None to the template context
         return render_template('index.html', nft_item=0, user=current_user)
+    
+@app.route('/explore')
+def explore():
+    return render_template('explore.html', user=current_user)
+
+@app.route('/explore_music')
+def explore_music():
+    return render_template('explore_music.html', user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -66,7 +74,6 @@ def login():
             return redirect(url_for('user_dashboard'))  # Redirect to user's dashboard
 
     return render_template('login.html')
-
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -156,6 +163,9 @@ def upload_nft_image():
         flash('NFT item not found', 'error')
 
     return redirect(url_for('nft_item_details', id=nft_item_id))
+
+
+
 
 
 @app.route('/user_dashboard')
@@ -271,9 +281,6 @@ def add_funds():
 def withdrawal():
     return render_template('withdrawal.html')
 
-@app.route('/explore')
-def explore():
-    return render_template('explore.html')
 
 @app.route('/contact')
 def contact():
@@ -289,9 +296,6 @@ def author():
         flash('NFT item not found.', 'danger')
         return redirect(url_for('some_other_route')) 
     
-
-
-
 
 #admin routes
 @app.route('/admin')
@@ -355,8 +359,6 @@ def fund_amount(id):
 def activity():
     users = User.query.all()
     return render_template('admin/activity.html', users=users)
-
-
 
 @app.route('/logout')
 @login_required
