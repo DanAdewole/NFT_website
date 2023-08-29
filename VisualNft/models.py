@@ -20,6 +20,7 @@ class NFTItem(db.Model):
     likes = db.Column(db.Integer, default=0)
     collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    author = db.relationship('Users', backref='nft_items', foreign_keys=[author_id])
 
     def __repr__(self):
         return f'<NFTItem {self.name}>'

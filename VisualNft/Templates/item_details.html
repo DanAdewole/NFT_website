@@ -35,9 +35,8 @@
                                         <div class="item_author">                                    
                                             <div class="author_list_pp">
                                                 <a href="{{ url_for('author') }}">
-                                                    {% set profile_picture = nft_item.author_id.profile_picture or nft_item.author_id.user.profile_picture or 'author_single/user.png' %}
-                                                    <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + profile_picture) }}" alt="">
-                                                    
+                                                    {% set author_profile_picture = nft_item.author.profile_picture or 'author_single/user.png' %}
+                                                    <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + author_profile_picture) }}" alt="">                                                    
                                                     <i class="fa fa-check"></i>
                                                 </a>
                                             </div>                                    
