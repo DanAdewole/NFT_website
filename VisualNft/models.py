@@ -16,6 +16,8 @@ class NFTItem(db.Model):
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(255), nullable=True)
+    nft_views = db.Column(db.Integer, default=0)
+    likes = db.Column(db.Integer, default=0)
     collection_id = db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 

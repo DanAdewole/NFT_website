@@ -41,9 +41,8 @@ def send_notification(users, message):
 @app.route('/')
 @app.route('/home')
 def index():
-    user_notifications = get_user_notifications(current_user.id)  # Replace with your logic to get user notifications
-    notification_count = len(user_notifications)
-    return render_template('index.html', notification_count=notification_count)
+
+    return render_template('index.html')
   
     
 @app.route('/explore')
@@ -101,6 +100,26 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html')
+
+@app.route('/like_item/<int:item_id>', methods=['POST'])
+@login_required
+def like_item(item_id):
+    nft_item = NFTItem.query.get_or_404(item_id)
+    
+    if nft_item.author != current_user:  # Prevent the author from liking their own item
+        nft_item.likes += 1
+        db.session.commit()
+    
+    return "Liked", 200
+
+@app.route('/view_item/<int:item_id>', methods=['POST'])
+def view_item(item_id):
+    nft_item = NFTItem.query.get_or_404(item_id)
+    
+    nft_item.views += 1
+    db.session.commit()
+    
+    return "Viewed", 200
 
 
 @login_required

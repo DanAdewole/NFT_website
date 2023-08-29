@@ -24,8 +24,8 @@
                                 <h2>{{ nft_item.name }}</h2>
                                 <div class="item_info_counts">
                                     <div class="item_info_type"><i class="fa fa-image"></i>{{ nft_item.category }}</div>
-                                    <div class="item_info_views"><i class="fa fa-eye"></i>0</div>
-                                    <div class="item_info_like"><i class="fa fa-heart"></i>0</div>
+                                    <div class="item_info_views"><i class="fa fa-eye" data-item-id="{{ nft_item.id }}"></i><span class="view-count">{{ nft_item.nft_views }}</span></div>
+                                    <div class="item_info_like"><i class="fa fa-heart" data-item-id="{{ nft_item.id }}"></i><span class="like-count">{{ nft_item.likes }}</span></div>
                                 </div>
                                 <p>{{ nft_item.description }}</p>
 
@@ -35,8 +35,9 @@
                                         <div class="item_author">                                    
                                             <div class="author_list_pp">
                                                 <a href="{{ url_for('author') }}">
-                                                    {% set profile_picture = user.profile_picture or 'author_single/user.png' %}
+                                                    {% set profile_picture = nft_item.author_id.profile_picture or nft_item.author_id.user.profile_picture or 'author_single/user.png' %}
                                                     <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + profile_picture) }}" alt="">
+                                                    
                                                     <i class="fa fa-check"></i>
                                                 </a>
                                             </div>                                    

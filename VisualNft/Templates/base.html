@@ -289,5 +289,65 @@
                 playPauseButton.classList.remove('playing');
             });
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const likeButtons = document.querySelectorAll(".like-btn");
+        
+                likeButtons.forEach(likeButton => {
+                    likeButton.addEventListener("click", async () => {
+                        const itemId = likeButton.dataset.itemId;
+                        const likeCountElement = likeButton.nextElementSibling;
+        
+                        try {
+                            const response = await fetch(`/like_item/${itemId}`, {
+                                method: "POST"
+                            });
+        
+                            if (response.ok) {
+                                const updatedLikes = parseInt(likeCountElement.textContent) + 1;
+                                likeCountElement.textContent = updatedLikes;
+                            } else {
+                                console.error("Failed to like item.");
+                            }
+                        } catch (error) {
+                            console.error("An error occurred.", error);
+                        }
+                    });
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const viewCountElements = document.querySelectorAll(".item_info_views");
+        
+                viewCountElements.forEach(viewCountElement => {
+                    const itemId = viewCountElement.dataset.itemId;
+        
+                    // Simulate incrementing view count on item view
+                    const simulateItemView = async () => {
+                        try {
+                            const response = await fetch(`/view_item/${itemId}`, {
+                                method: "POST"
+                            });
+        
+                            if (response.ok) {
+                                const updatedViews = parseInt(viewCountElement.textContent) + 1;
+                                viewCountElement.textContent = updatedViews;
+                            } else {
+                                console.error("Failed to increment view count.");
+                            }
+                        } catch (error) {
+                            console.error("An error occurred.", error);
+                        }
+                    };
+        
+                    // Simulate item view on page load (you can trigger this as needed)
+                    simulateItemView();
+                });
+            });
+        </script>
+        
+        
+        
 </body>
 </html>
