@@ -1,14 +1,29 @@
+import uuid
+import requests
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import os
 from werkzeug.utils import secure_filename
-from .models import User, NFTItem, Notification, Collection, Activity
+from .models import Users, NFTItem, Notifications, Collection, Activity
 from VisualNft import app, db
+from PIL import Image
 
+
+# Function to get Ether to USD exchange rate
+def get_eth_to_usd_price():
+    response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+    data = response.json()
+    return data.get('ethereum', {}).get('usd', 0)
+
+# Function to calculate the equivalent in USD
+def get_price_in_usd(eth_price):
+    eth_to_usd = get_eth_to_usd_price()
+    price_in_usd = eth_price * eth_to_usd
+    return f"${price_in_usd:.2f}"
 
 def get_user_notifications(user_id):
-        user_notifications = Notification.query.filter_by(user_id=user_id).all()
+        user_notifications = Notifications.query.filter_by(user_id=user_id).all()
         return user_notifications
 
 def upload_proof_of_funds(user_id):
@@ -17,26 +32,8 @@ def upload_proof_of_funds(user_id):
     db.session.commit()
 
 
-def upload_file(upload_folder):
-    if 'file' not in request.files:
-        return None  # No file part
-
-    file = request.files['file']
-
-    if file.filename == '':
-        return None  # No selected file
-
-    if file:
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(upload_folder, filename)
-        file.save(file_path)
-        return file_path
-
-    return None
-
-
-def send_notification(user, message):
-    notification = Notification(user_id=user.id, message=message)
+def send_notification(users, message):
+    notification = Notifications(user_id=users.id, message=message)
     db.session.add(notification)
     db.session.commit()
 
@@ -44,21 +41,18 @@ def send_notification(user, message):
 @app.route('/')
 @app.route('/home')
 def index():
-    nft_item = NFTItem.query.first()  # You can fetch an NFTItem object from your database
-    if nft_item:
-        # If an nft_item exists, pass it to the template context
-        return render_template('index.html', nft_item=nft_item, user=current_user)
-    else:
-        # If no nft_item exists, pass None to the template context
-        return render_template('index.html', nft_item=0, user=current_user)
+    user_notifications = get_user_notifications(current_user.id)  # Replace with your logic to get user notifications
+    notification_count = len(user_notifications)
+    return render_template('index.html', notification_count=notification_count)
+  
     
 @app.route('/explore')
 def explore():
-    return render_template('explore.html', user=current_user)
+    return render_template('explore.html')
 
 @app.route('/explore_music')
 def explore_music():
-    return render_template('explore_music.html', user=current_user)
+    return render_template('explore_music.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -67,7 +61,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        user = User.query.filter_by(email=email).first()
+        user = Users.query.filter_by(email=email).first()
 
         if user and user.password == password:
             login_user(user)  # Use login_user to initiate the user session
@@ -79,7 +73,7 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        first_name = request.form.get('FisrtName')
+        first_name = request.form.get('FirstName')
         last_name = request.form.get('LastName')
         email = request.form.get('email')
         username = request.form.get('Username')
@@ -91,15 +85,15 @@ def register():
             return "Passwords do not match"
 
         # Check if the provided email is already registered
-        existing_user_email = User.query.filter_by(email=email).first()
-        existing_username = User.query.filter_by(username=username).first()
+        existing_user_email = Users.query.filter_by(email=email).first()
+        existing_username = Users.query.filter_by(username=username).first()
         if existing_user_email:
             return "Email already registered"
         elif existing_username:
             return "Username already taken"
 
         # Create a new user and add to the database
-        new_user = User(firstname=first_name, lastname=last_name, email=email, username=username, password=password)
+        new_user = Users(firstname=first_name, lastname=last_name, email=email, username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -112,6 +106,9 @@ def register():
 @login_required
 @app.route('/profile_update', methods=['GET', 'POST'])
 def profile_update():
+    user_notifications = get_user_notifications(current_user.id)  # Replace with your logic to get user notifications
+    notification_count = len(user_notifications)
+
     if request.method == 'POST':
         user = current_user
         user.username = request.form.get('username')
@@ -120,66 +117,55 @@ def profile_update():
         user.your_site = request.form.get('your_site')
         user.twitter_username = request.form.get('twitter_username')
         user.instagram_username = request.form.get('instagram_username')
-        db.session.commit()
 
-        return redirect(url_for('user_dashboard'))
+        if 'upload_profile_img' in request.files:
+            profile_picture = request.files['upload_profile_img']
+            if profile_picture.filename:
+                pic_filename = secure_filename(profile_picture.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                pic_path = os.path.join(app.config['UPLOAD_FOLDER'], pic_name)
+                os.makedirs(os.path.dirname(pic_path), exist_ok=True)
+                # Delete the prior image if it exists
+                if user.profile_picture:
+                    prior_pic_path = os.path.join(app.config['UPLOAD_FOLDER'], user.profile_picture)
+                    if os.path.exists(prior_pic_path):
+                        os.remove(prior_pic_path)
+                
+                # Resize the image to a square
+                img = Image.open(profile_picture)
+                width, height = img.size
+                min_dimension = min(width, height)
+                img = img.resize((min_dimension, min_dimension))
+                
+                img.save(pic_path)
+                user.profile_picture = pic_name
+                    
 
-    # Handle GET request for displaying the profile update form
-    user_notifications = get_user_notifications(current_user.id)  # Replace with your logic to get user notifications
-    notification_count = len(user_notifications)
+        try:
+            db.session.commit()
+            flash("User Updated Successfully!", 'success')
+            return redirect(url_for('user_dashboard'))
+        except:
+            db.session.rollback()
+            flash("Error! There was a problem...try again!", 'danger')
 
     return render_template('profile_update.html', notification_count=notification_count)
 
-@app.route('/upload_profile_picture', methods=['POST'])
-def upload_profile_picture():
-    user = current_user()  # Implement your own function to get the current user
-    if user:
-        file_path = upload_file(app.config['UPLOAD_FOLDER'])
-        if file_path:
-            user.profile_picture = file_path
-            db.session.commit()
-            flash('Profile picture uploaded successfully', 'success')
-        else:
-            flash('Failed to upload profile picture', 'error')
-    else:
-        flash('User not logged in', 'error')
-
-    return redirect(url_for('profile'))
-
-@app.route('/upload_nft_image', methods=['POST'])
-def upload_nft_image():
-    nft_item_id = request.form.get('nft_item_id')  # Get the NFT item ID from the form
-    nft_item = NFTItem.query.get(nft_item_id)
+        
+                            
     
-    if nft_item:
-        file_path = upload_file(app.config['UPLOAD_FOLDER'])
-        if file_path:
-            nft_item.image = file_path
-            db.session.commit()
-            flash('NFT image uploaded successfully', 'success')
-        else:
-            flash('Failed to upload NFT image', 'error')
-    else:
-        flash('NFT item not found', 'error')
-
-    return redirect(url_for('nft_item_details', id=nft_item_id))
-
-
-
-
-
 @app.route('/user_dashboard')
 @login_required
 def user_dashboard():
-    return render_template('user_dashboard.html', nft_item=current_user.nfts)
+    return render_template('user_dashboard.html', nft_item=current_user.nfts, user=current_user)
 
 @app.route('/item_details/<int:id>')
 @login_required
 def item_details(id):
     nft_item = NFTItem.query.get(id)
     if nft_item:
-        user = User.query.get(nft_item.author_id)
-        return render_template('item_details.html', nft_item=nft_item, user=user)
+        user = Users.query.get(nft_item.author_id)
+        return render_template('item_details.html', nft_item=nft_item, user=user, get_price_in_usd=get_price_in_usd)
     else:
         flash('NFT item not found.', 'danger')
         return redirect(url_for('some_other_route'))  # Redirect to a suitable route if item is not found
@@ -194,28 +180,37 @@ def create_options():
 @login_required
 def create_single():
     if request.method == 'POST':
-        # Handle form submission and file upload here
         uploaded_file = request.files['upload_file']
         if uploaded_file:
-            # Save the uploaded file
             filename = secure_filename(uploaded_file.filename)
-            uploaded_file.save('path_to_upload_folder/' + filename)
+            file_extension = os.path.splitext(filename)[1].lower()  # Get the file extension
+            media_name = str(uuid.uuid1()) + "_" + filename
+            media_path = os.path.join(app.config['UPLOAD_FOLDER'], media_name)
+            os.makedirs(os.path.dirname(media_path), exist_ok=True)
+            uploaded_file.save(media_path)
 
-        # Process other form data here
         item_price = request.form.get('item_price')
-        item_unlock = request.form.get('item_unlock')
         item_collection = request.form.get('item_collection')
         item_title = request.form.get('item_title')
         item_desc = request.form.get('item_desc')
 
-        # Create a new item in the database
+        # Check user's account balance
+        user_balance = current_user.account_funds
+    
+        required_balance_eth = 0.12
+
+        if user_balance < required_balance_eth:
+            flash('Insufficient funds in your account.', 'error')
+            return redirect(url_for('add_funds'))
+
         new_item = NFTItem(
-            image='path_to_upload_folder/' + filename,
+            media=media_name,  # Store the media filename in the database
+            media_extension=file_extension,  # Store the media file extension in the database
             name=item_title,
-            item_price=item_price,
+            price=item_price,
             description=item_desc,
-            author_id=current_user.id,  # Assuming the current user is the author
-            collection=item_collection  # Replace with the actual collection ID
+            author_id=current_user.id,
+            collection_id=item_collection
         )
         db.session.add(new_item)
         db.session.commit()
@@ -224,6 +219,7 @@ def create_single():
         return redirect(url_for('create_single'))
 
     return render_template('create_single.html')
+
 
 @app.route('/create-multiple', methods=['GET', 'POST'])
 @login_required
@@ -290,7 +286,7 @@ def contact():
 def author():
     nft_item = NFTItem.query.get(id)
     if nft_item:
-        user = User.query.get(nft_item.author_id)
+        user = Users.query.get(nft_item.author_id)
         return render_template('author.html', nft_item=nft_item, user=user)
     else:
         flash('NFT item not found.', 'danger')
@@ -304,12 +300,12 @@ def admin_index():
 
 @app.route('/user_management')
 def user_management():
-    users = User.query.all()
+    users = Users.query.all()
     return render_template('admin/user_management.html', users=users)
 
 @app.route('/edit_user/<int:id>', methods=['GET', 'POST'])
 def edit_user(id):
-    user = User.query.get_or_404(id)
+    user = Users.query.get_or_404(id)
 
     if request.method == 'POST':
         # Update user information based on form submission
@@ -329,7 +325,7 @@ def edit_user(id):
 
 @app.route('/delete_user/<int:id>', methods=['GET', 'POST'])
 def delete_user(id):
-    user = User.query.get_or_404(id)
+    user = Users.query.get_or_404(id)
 
     if request.method == 'POST':
         db.session.delete(user)
@@ -341,12 +337,12 @@ def delete_user(id):
 
 @app.route('/fund_user')
 def fund_user():
-    users = User.query.all()
+    users = Users.query.all()
     return render_template('admin/fund_user.html', users=users)
 
 @app.route('/fund_amount/<int:id>', methods=['GET', 'POST'])
 def fund_amount(id):
-    user = User.query.get_or_404(id)
+    user = Users.query.get_or_404(id)
     if request.method == 'POST':
         amount = float(request.form.get('amount'))
         user.account_funds += amount
@@ -357,7 +353,7 @@ def fund_amount(id):
 
 @app.route('/activity')
 def activity():
-    users = User.query.all()
+    users = Users.query.all()
     return render_template('admin/activity.html', users=users)
 
 @app.route('/logout')

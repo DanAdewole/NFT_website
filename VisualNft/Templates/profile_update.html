@@ -26,7 +26,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
-                            <form id="form-create-item" class="form-border" method="post" action="{{ url_for('profile_update') }}">
+                            <form id="form-create-item" class="form-border" method="post" action="{{ url_for('profile_update') }}" enctype="multipart/form-data">
                                 <div class="de_tab tab_simple">
 
                                     <ul class="de_nav">
@@ -40,7 +40,7 @@
                                             <div class="row wow fadeIn">
                                                 <div class="col-lg-8 mb-sm-20">
                                                     <div class="field-set">
-                                                        <form class="form-border" method="post" action="{{ url_for('profile_update') }}">
+                                                        
                                                             <h5>Username</h5>
                                                             <input type="text" name="username" id="username" class="form-control"
                                                                 placeholder="Enter username" />
@@ -53,9 +53,9 @@
 
                                                             <div class="spacer-20"></div>
 
-                                                            <h5>Email Address*</h5>
+                                                            <h5>Email Address</h5>
                                                             <input type="text" name="email_address" id="email_address"
-                                                                class="form-control" placeholder="Enter email" required/>
+                                                                class="form-control" placeholder="Enter email"/>
 
                                                             <div class="spacer-20"></div>
 
@@ -64,25 +64,15 @@
                                                                 placeholder="Enter Website URL" />
 
                                                             <div class="spacer-20"></div>
-
-                                                            <h5><i class="fa fa-twitter"></i> Twitter username</h5>
-                                                            <input type="text" name="twitter_username" id="twitter_username"
-                                                                class="form-control" placeholder="Enter Twitter username" />
-
-                                                            <div class="spacer-20"></div>
-
-                                                            <h5><i class="fa fa-instagram"></i> Instagram username</h5>
-                                                            <input type="text" name="instagram_username" id="instagram_username"
-                                                                class="form-control" placeholder="Enter Instagram username" />
-                                                        </form>
+                                                    
 
                                                     </div>
                                                 </div>
 
                                                 <div id="sidebar" class="col-lg-4">
-                                                    <form class="form-border" method="post" action="{{ url_for('profile_update') }}">                                              
+                                                                                                
                                                         <h5>Profile image</h5>
-                                                        <img src="{{ current_user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" id="click_profile_img" class="d-profile-img-edit img-fluid" alt="">
+                                                        <img src="{{ url_for('static', filename='images/uploads/' + (user.profile_picture or 'author_single/user.png')) }}" id="click_profile_img" class="d-profile-img-edit img-fluid" alt="">
                                                         <input type="file" name="upload_profile_img" id="upload_profile_img">
                                     
                                                         <div class="spacer-30"></div>
@@ -91,7 +81,7 @@
                                                         <h5>Profile banner</h5>
                                                         <img src="{{ current_user.profile_banner or url_for('static', filename='images/author_single/author_banner.jpg') }}" id="click_banner_img" class="d-banner-img-edit img-fluid" alt="">
                                                         <input type="file" name="upload_banner_img" id="upload_banner_img">
-                                                    </form>
+                                                  
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +89,7 @@
                                 </div>
                             
                             <div class="spacer-30"></div>
-                            <input type="button" id="submit" class="btn-main" value="Update profile">
+                            <input type="submit" id="submit" class="btn-main" value="Update profile">
                             </form>
                         </div>
                     </div>

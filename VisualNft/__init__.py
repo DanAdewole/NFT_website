@@ -6,7 +6,7 @@ from flask_login import LoginManager
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'path_to_your_upload_folder'  # Change this to the path where you want to save uploaded images
+UPLOAD_FOLDER = 'VisualNft/static/images/uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost:5432/nftdb'

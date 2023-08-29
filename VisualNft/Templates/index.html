@@ -5,14 +5,12 @@
         <!-- content begin -->
         <div class="no-bottom no-top" id="content">
             <div id="top"></div>
-            {% if nft_item == 0 %}
-            <h1 class="container p-5 mt-5">Nothing to show here</h1>
-            {% else %}
+          
             <section id="section-hero" class="no-bottom" aria-label="section">
                 <div class="d-carousel">
                     <div id="item-carousel-big" class="owl-carousel wow fadeIn">
                         <div class="nft_pic">
-                            <a href="{{ url_for('item_details', id=nft_item.id) }}">            
+                            <a href="#">            
                                 <span class="nft_pic_info">
                                     <span class="nft_pic_title">Red Ocean</span>
                                     <span class="nft_pic_by">Monica Lucas</span>
@@ -24,7 +22,7 @@
                         </div>
 
                         <div class="nft_pic">
-                            <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                            <a href="#">
                                 <span class="nft_pic_info">
                                     <span class="nft_pic_title">Bananas</span>
                                     <span class="nft_pic_by">Mamie Barnett</span>
@@ -36,7 +34,7 @@
                         </div>
 
                         <div class="nft_pic">
-                            <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                            <a href="#">
                                 <span class="nft_pic_info">
                                     <span class="nft_pic_title">AnimeSailorClub</span>
                                     <span class="nft_pic_by">Nicholas Daniels</span>
@@ -48,7 +46,7 @@
                         </div>
 
                         <div class="nft_pic">
-                            <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                            <a href="#">
                                 <span class="nft_pic_info">
                                     <span class="nft_pic_title">Loop Donut</span>
                                     <span class="nft_pic_by">Lori Hart</span>
@@ -60,7 +58,7 @@
                         </div>
 
                         <div class="nft_pic">
-                            <a href="{{ url_for('item_details', id=nft_item.id) }}">
+                            <a href="#">
                                 <span class="nft_pic_info">
                                     <span class="nft_pic_title">I Believe I Can Fly</span>
                                     <span class="nft_pic_by">Fred Ryan</span>
@@ -75,7 +73,6 @@
                     <div class="d-arrow-right"><i class="fa fa-angle-right"></i></div>
                 </div>
             </section>
-            {% endif %}
 
             <section id="section-collections" class="pt30 pb30">
                 <div class="container">
@@ -124,7 +121,7 @@
                                                     0.08 ETH<span>1/20</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>50</span>
@@ -168,7 +165,7 @@
                                                     0.06 ETH<span>1/22</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>80</span>
@@ -213,7 +210,7 @@
                                                     0.05 ETH<span>1/11</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>97</span>
@@ -257,7 +254,7 @@
                                                     0.02 ETH<span>1/15</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>73</span>
@@ -301,7 +298,7 @@
                                                     0.06 ETH<span>1/20</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>26</span>
@@ -346,7 +343,7 @@
                                                     0.03 ETH<span>1/24</span>
                                                 </div>    
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>45</span>
@@ -390,7 +387,7 @@
                                                     0.09 ETH<span>1/25</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>76</span>
@@ -435,7 +432,7 @@
                                                     0.09 ETH<span>1/14</span>
                                                 </div>
                                                 <div class="nft__item_action">
-                                                    <a href="#">Place a bid</a>
+                                                    <a href="{{ url_for('add_funds') }}">Purchase</a>
                                                 </div>
                                                 <div class="nft__item_like">
                                                     <i class="fa fa-heart"></i><span>94</span>
@@ -552,7 +549,7 @@
                                                 <li>                                    
                                                     <div class="author_list_pp">
                                                         <a href="#">
-                                                            <img class="lazy" src="images/author/author-1.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-1.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>                                    
@@ -564,7 +561,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-2.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-2.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -576,7 +573,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-3.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-3.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -588,7 +585,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-4.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-4.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -600,7 +597,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-5.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-5.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -612,7 +609,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-6.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-6.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -624,7 +621,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-7.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-7.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -636,7 +633,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-8.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-8.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -648,7 +645,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-9.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-9.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -660,7 +657,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-10.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-10.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -672,7 +669,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-11.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-11.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -684,7 +681,7 @@
                                                 <li>
                                                     <div class="author_list_pp">
                                                         <a href="#">                                    
-                                                            <img class="lazy" src="images/author/author-12.jpg" alt="">
+                                                            <img class="lazy" src="{{ url_for('static', filename='images/author/author-12.jpg') }}" alt="">
                                                             <i class="fa fa-check"></i>
                                                         </a>
                                                     </div>
@@ -763,14 +760,14 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-6 wow fadeInRight mb30" data-wow-delay="0s">
                                     <div class="de_count">
-                                        <h3><span class="timer" data-to="7300" data-speed="3000">0</span></h3>
+                                        <h3><span class="timer" data-to="16" data-speed="3000">0</span>k+</h3>
                                         <h5 class="id-color">Users</h5>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 wow fadeInRight mb30" data-wow-delay=".25s">
                                     <div class="de_count">
-                                        <h3><span class="timer" data-to="16" data-speed="3000">0</span>k</h3>
+                                        <h3><span class="timer" data-to="100" data-speed="3000">0</span>k+</h3>
                                         <h5 class="id-color">Collections</h5>
                                     </div>
                                 </div>
@@ -798,7 +795,7 @@
 
                                 <div class="col-lg-4 col-md-6 wow fadeInRight mb30" data-wow-delay="1s">
                                     <div class="de_count">
-                                        <h3><span class="timer" data-to="400" data-speed="3000">0</span></h3>
+                                        <h3><span class="timer" data-to="950" data-speed="3000">0</span></h3>
                                         <h5 class="id-color">New users Daily</h5>
                                     </div>
                                 </div>

@@ -74,7 +74,7 @@
                                     </li>
                                 </ul>
                                 <!-- mainmenu close -->
-                                {% if user.is_authenticated %}
+                                {% if current_user.is_authenticated %}
                                 <div class="menu_side_area">
                                     <div class="de-login-menu">
                                         <a href="{{ url_for('create_options') }}" class="btn-main btn-wallet"><i class="icon_wallet_alt"></i><span>Create</span></a>
@@ -85,7 +85,7 @@
                                         </span>
                                 
                                         <span id="de-click-menu-profile" class="de-menu-profile">
-                                            <img src="{{ current_user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" class="img-fluid" alt="">
+                                            <img src="{{ url_for('static', filename='images/uploads/' + (current_user.profile_picture or '../author_single/user.png')) }}" class="img-fluid" alt="">
                                         </span>
                                 
                                         <div id="de-submenu-notification" class="de-submenu">
@@ -266,6 +266,28 @@
                 loginForm.submit();
             });
         });
+        </script>
+        <script>
+            const audio = document.querySelector('.track');
+            const playPauseButton = document.querySelector('.play-pause');
+        
+            playPauseButton.addEventListener('click', function () {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseButton.classList.add('playing');
+                } else {
+                    audio.pause();
+                    playPauseButton.classList.remove('playing');
+                }
+            });
+        
+            audio.addEventListener('play', function () {
+                playPauseButton.classList.add('playing');
+            });
+        
+            audio.addEventListener('pause', function () {
+                playPauseButton.classList.remove('playing');
+            });
         </script>
 </body>
 </html>

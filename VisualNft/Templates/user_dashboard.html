@@ -11,7 +11,8 @@
                            <div class="d_profile de-flex">
                                 <div class="de-flex-col">
                                     <div class="profile_avatar">
-                                        <img src="{{ current_user.profile_picture or url_for('static', filename='images/author_single/user.png') }}" alt="{{ current_user.username }}">
+                                        <img src="{{ url_for('static', filename='images/uploads/' + (user.profile_picture or '../author_single/user.png')) }}" alt="">
+
                                         <i class="fa fa-check"></i>
                                         <div class="profile_name">
                                             <h4>
@@ -51,7 +52,7 @@
                                                         <div class="nft__item">
                                                             <div class="author_list_pp">
                                                                 <a href="{{ url_for('user_dashboard', username=current_user.username) }}">
-                                                                    <img class="lazy" src="{{ current_user.profile_picture or url_for('static', filename='images/author/author-1.jpg') }}" alt="">
+                                                                    <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + (current_user.profile_picture or '../author_single/user.png')) }}" alt="">
                                                                     <i class="fa fa-check"></i>
                                                                 </a>
                                                             </div>
@@ -70,7 +71,14 @@
                                                                     </div>
                                                                 </div>
                                                                 <a href="{{ url_for('item_details', id=nft_item.id) }}">
-                                                                    <img src="{{ nft_item.image }}" class="lazy nft__item_preview" alt="{{ nft_item.name }}">
+                                                                    {% if nft_item.media_extension in ['.jpg', '.jpeg', '.png', '.gif'] %}
+                                                                    <img src="{{ url_for('static', filename='images/uploads/' + nft_item.media) }}" class="lazy nft__item_preview" alt="{{ nft_item.name }}">
+                                                                    {% elif nft_item.media_extension in ['.mp4', '.avi', '.mov'] %}
+                                                                    <video controls>
+                                                                        <source src="{{ url_for('static', filename='images/uploads/' + nft_item.media) }}" type="video/{{ nft_item.media_extension[1:] }}">
+                                                                        Your browser does not support the video tag.
+                                                                    </video>
+                                                                {% endif %}
                                                                 </a>
                                                             </div>
                                                             <div class="nft__item_info">
@@ -81,10 +89,10 @@
                                                                     <span></span>
                                                                 </div>
                                                                 <div class="nft__item_price">
-                                                                    {{ nft_item.price }} ETH <span>1/20</span>
+                                                                    {{ nft_item.price }} ETH <span></span>
                                                                 </div>
                                                                 <div class="nft__item_like">
-                                                                    <i class="fa fa-heart"></i><span>50</span>
+                                                                    <i class="fa fa-heart"></i><span>0</span>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -10,7 +10,14 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 text-center">
-                            <img src="{{ nft_item.image }}" class="img-fluid img-rounded mb-sm-30" alt="">
+                            {% if nft_item.media_extension in ['.jpg', '.jpeg', '.png', '.gif'] %}
+                            <img src="{{ url_for('static', filename='images/uploads/' + nft_item.media) }}" class="lazy nft__item_preview" alt="{{ nft_item.name }}">
+                            {% elif nft_item.media_extension in ['.mp4', '.avi', '.mov'] %}
+                            <video controls>
+                                <source src="{{ url_for('static', filename='images/uploads/' + nft_item.media) }}" type="video/{{ nft_item.media_extension[1:] }}">
+                                Your browser does not support the video tag.
+                            </video>
+                            {% endif %}
                         </div>
                         <div class="col-md-6">
                             <div class="item_info">
@@ -28,7 +35,8 @@
                                         <div class="item_author">                                    
                                             <div class="author_list_pp">
                                                 <a href="{{ url_for('author') }}">
-                                                    <img class="lazy" src="{{ user.profile_picture }}" alt="">
+                                                    {% set profile_picture = user.profile_picture or 'author_single/user.png' %}
+                                                    <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + profile_picture) }}" alt="">
                                                     <i class="fa fa-check"></i>
                                                 </a>
                                             </div>                                    
@@ -41,7 +49,7 @@
                                     <div class="item_author">                                    
                                         <div class="author_list_pp">
                                             <a href="{{ url_for('author') }}">
-                                                <img class="lazy" src="{{ nft_item.image }}" alt="{{ nft_item.name }}">
+                                                <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + nft_item.media) }}" alt="{{ nft_item.name }}">
                                                 <i class="fa fa-check"></i>
                                             </a>
                                         </div>                                    
@@ -54,7 +62,16 @@
                             <div class="spacer-40"></div>
 
                             <h6>Price</h6>
-                                <div class="nft-item-price"><img src="{{ url_for('static', filename='images/misc/ethereum.svg') }}" alt=""><span>{{ nft_item.price }}</span> {{ nft_item.dollar }}</div>
+                            <div class="nft-item-price">
+                                <img src="{{ url_for('static', filename='images/misc/ethereum.svg') }}" alt="">
+                                <span>{{ nft_item.price }} ETH</span>
+                                {% if nft_item.price %}
+                                    ({{ get_price_in_usd(nft_item.price) }} USD)
+                                {% else %}
+                                    (USD equivalent not available)
+                                {% endif %}
+                            </div>
+                            
 
                                 <!-- Button trigger modal -->
                                 <a href="#" class="btn-main btn-lg" data-bs-toggle="modal" data-bs-target="#buy_now">

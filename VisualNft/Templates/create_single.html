@@ -24,14 +24,14 @@
                 <div class="container">
                     <div class="row wow fadeIn">
                         <div class="col-lg-7 offset-lg-1">
-                            <form id="form-create-item" class="form-border" method="post" action="{{ url_for('email') }}">
+                            <form id="form-create-item" class="form-border" method="post" action="{{ url_for('create_single') }}" enctype="multipart/form-data">
                                 <div class="field-set">
                                     <h5>Upload file</h5>
 
                                     <div class="d-create-file">
                                         <p id="file_name">PNG, JPG, GIF, WEBP or MP4. Max 200mb.</p>
                                         <input type="button" id="get_file" class="btn-main" value="Browse">
-                                        <input type="file" id="upload_file">
+                                        <input type="file" id="upload_file" name="upload_file">
                                     </div>
 
                                     <div class="spacer-40"></div>
@@ -39,8 +39,7 @@
                                     <h5>Select method</h5>
                                     <div class="de_tab tab_methods">
                                         <ul class="de_nav">
-                                            <li class="active"><span><i class="fa fa-tag"></i>Fixed price</span>
-                                            </li>
+                                            <li class="active"><span><i class="fa fa-tag"></i>Fixed price</span></li>
                                         </ul>
 
                                         <div class="de_tab_content">
@@ -84,6 +83,9 @@
                                             <li><span>Cartoonism</span></li>
                                             <li><span>Paintings</span></li>
                                             <li><span>Photos</span></li>
+                                            <li><span>Music</span></li>
+                                            <li><span>Sounds</span></li>
+                                            <li><span>Beats</span></li>
                                         </ul>
                                     </div>
 
@@ -99,7 +101,12 @@
 
                                     <div class="spacer-single"></div>
 
-                                    <input type="button" id="submit" class="btn-main" value="Create Item">
+                                    <h5><b>Note:</b>A fee of $200 worth of Eth, (0.12)Eth is required for NFTs minting</h5>                                    
+
+                                    <div class="spacer-single"></div>
+
+
+                                    <input type="submit" id="submit" class="btn-main" value="Create Item">
                                     <div class="spacer-single"></div>
                                 </div>
                             </form>
