@@ -39,29 +39,33 @@
                                         <div class="tab-1">
                                             <div class="row wow fadeIn">
                                                 <div class="col-lg-8 mb-sm-20">
-                                                    <div class="field-set">
+                                                    <div class="field-set mb-3">
+
+                                                            {% for message in get_flashed_messages() %}
+                                                                <div style="padding: 10px; margin: 1.5px; color: #970020; background-color: #ffd5de;">{{ message }}</div>
+                                                            {% endfor %}
                                                         
                                                             <h5>Username</h5>
                                                             <input type="text" name="username" id="username" class="form-control"
-                                                                placeholder="Enter username" />
+                                                                placeholder="Enter username" value="{{ user.username }}"/>
 
                                                             <div class="spacer-20"></div>
 
                                                             <h5>Bio</h5>
                                                             <textarea name="bio" id="bio" class="form-control"
-                                                                placeholder="Tell the world who you are!"></textarea>
+                                                                placeholder="Tell the world who you are!" ></textarea>
 
                                                             <div class="spacer-20"></div>
 
                                                             <h5>Email Address</h5>
                                                             <input type="text" name="email_address" id="email_address"
-                                                                class="form-control" placeholder="Enter email"/>
+                                                                class="form-control" placeholder="Enter email" value="{{ user.email }}"/>
 
                                                             <div class="spacer-20"></div>
 
                                                             <h5><i class="fa fa-link"></i> Your site</h5>
                                                             <input type="text" name="your_site" id="your_site" class="form-control"
-                                                                placeholder="Enter Website URL" />
+                                                                placeholder="Enter Website URL" value="{{ user.site }}"/>
 
                                                             <div class="spacer-20"></div>
                                                     

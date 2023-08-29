@@ -61,8 +61,13 @@ def login():
         password = request.form.get('password')
 
         user = Users.query.filter_by(email=email).first()
-
-        if user and user.password == password:
+        
+        if not user:
+            flash("Email not found. Sign up instead!")
+        elif user.password != password:
+            flash("Password does not match")
+        else:
+        # if user and user.password == password:
             login_user(user)  # Use login_user to initiate the user session
             return redirect(url_for('user_dashboard'))  # Redirect to user's dashboard
 
@@ -184,7 +189,8 @@ def item_details(id):
     nft_item = NFTItem.query.get(id)
     if nft_item:
         user = Users.query.get(nft_item.author_id)
-        return render_template('item_details.html', nft_item=nft_item, user=user, get_price_in_usd=get_price_in_usd)
+        nft_final_price = (nft_item.price * 0.025) + nft_item.price
+        return render_template('item_details.html', nft_item=nft_item, final_price=nft_final_price, user=user, get_price_in_usd=get_price_in_usd)
     else:
         flash('NFT item not found.', 'danger')
         return redirect(url_for('some_other_route'))  # Redirect to a suitable route if item is not found
