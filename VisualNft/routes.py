@@ -168,7 +168,7 @@ def profile_update():
             db.session.rollback()
             flash("Error! There was a problem...try again!", 'danger')
 
-    return render_template('profile_update.html', notification_count=notification_count)
+    return render_template('profile_update.html', user=current_user)
 
         
                             
@@ -301,15 +301,16 @@ def withdrawal():
 def contact():
     return render_template('contact.html', user=current_user)
 
-@app.route('/author')
-def author():
+@app.route('/author/<int:id>')
+def author(id):
     nft_item = NFTItem.query.get(id)
     if nft_item:
         user = Users.query.get(nft_item.author_id)
-        return render_template('author.html', nft_item=nft_item, user=user)
+        return render_template('author.html', nft_item=nft_item, user=user, get_price_in_usd=get_price_in_usd)
     else:
         flash('NFT item not found.', 'danger')
-        return redirect(url_for('some_other_route')) 
+        return redirect(url_for('some_other_route'))
+
     
 
 #admin routes

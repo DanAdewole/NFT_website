@@ -72,7 +72,7 @@
                                                 <div id="sidebar" class="col-lg-4">
                                                                                                 
                                                         <h5>Profile image</h5>
-                                                        <img src="{{ url_for('static', filename='images/uploads/' + (user.profile_picture or 'author_single/user.png')) }}" id="click_profile_img" class="d-profile-img-edit img-fluid" alt="">
+                                                        <img src="{{ url_for('static', filename='images/uploads/' + (user.profile_picture or '../author_single/user.png')) }}" id="click_profile_img" class="d-profile-img-edit img-fluid" alt="">
                                                         <input type="file" name="upload_profile_img" id="upload_profile_img">
                                     
                                                         <div class="spacer-30"></div>

@@ -34,27 +34,28 @@
                                         <h6>Creator</h6>
                                         <div class="item_author">                                    
                                             <div class="author_list_pp">
-                                                <a href="{{ url_for('author') }}">
-                                                    {% set author_profile_picture = nft_item.author.profile_picture or 'author_single/user.png' %}
+                                                <a href="{{ url_for('author', id=nft_item.author_id) }}">
+                                                    {% set author_profile_picture = nft_item.author.profile_picture or '../author_single/user.png' %}
                                                     <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + author_profile_picture) }}" alt="">                                                    
                                                     <i class="fa fa-check"></i>
                                                 </a>
                                             </div>                                    
                                             <div class="author_list_info">
-                                                <a href="{{ url_for('author') }}">{{ user.firstname }} {{ user.lastname }}</a>
+                                                <a href="{{ url_for('author', id=nft_item.author_id) }}">{{ user.firstname }} {{ user.lastname }}</a>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="mr40">
                                     <h6>Collection</h6>
                                     <div class="item_author">                                    
                                         <div class="author_list_pp">
-                                            <a href="{{ url_for('author') }}">
+                                            <a href="{{ url_for('author', id=nft_item.author_id) }}">
                                                 <img class="lazy" src="{{ url_for('static', filename='images/uploads/' + nft_item.media) }}" alt="{{ nft_item.name }}">
                                                 <i class="fa fa-check"></i>
                                             </a>
                                         </div>                                    
                                         <div class="author_list_info">
-                                            <a href="{{ url_for('author') }}">{{ nft_item.name }}</a>
+                                            <a href="{{ url_for('author', id=nft_item.author_id) }}">{{ nft_item.name }}</a>
                                         </div>
                                     </div>
                                 </div>
